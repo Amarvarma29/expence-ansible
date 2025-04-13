@@ -1,0 +1,37 @@
+- name: mysql configuration
+  hosts: mysql
+  become: yes
+  vars:
+    mysql_ root_password=
+    mysql_host
+  tasks:
+  - name: ansible to install pymysql
+    ansible.builtin.pip:
+    name:
+    - pymysql
+      
+  - name: install mysql server
+    ansible.builtin.package:
+      name: mysql-server
+      state: present
+
+  - name: start the mysql server
+    ansible.builtin.service:
+      name: mysqld
+      state: started
+      enabled: yes
+  
+
+  - name: connect to the mysql server
+    community.mysql.mysql_info:
+    login_user: root
+    login_password: "{{ mysql_ root_password }}"
+    login_host: "{{ mysql_host }}"
+  igonore errors: true
+  register: mysql_info
+
+  - name: set up mysql root password
+    ansible.builtin.command: 
+  
+  
+
